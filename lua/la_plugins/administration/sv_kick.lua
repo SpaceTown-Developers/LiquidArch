@@ -14,7 +14,7 @@ Plugin.Category = "Administration"
 
 Plugin.Privs = table.Copy( Plugin.Commands )
 
-unction Plugin:Kick( Ply, Args )
+function Plugin:Kick( Ply, Args )
 
 	if !LA:CheckAllowed( Ply, Plugin, "Kick" ) then
 		return LA:Message( Ply, unpack( LA.NotAllowed) )

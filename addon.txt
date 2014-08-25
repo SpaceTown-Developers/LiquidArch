@@ -1,0 +1,9 @@
+"AddonInfo"
+{
+	"name"        "Liquid Arch"
+	"version"     "0.1"
+	"author_name" "Rusketh, Divran"
+	"author_url"  "N/A"
+	"info"        "It is an admin mod!"
+	"override"    "0"
+}

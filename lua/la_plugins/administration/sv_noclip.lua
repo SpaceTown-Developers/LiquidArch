@@ -27,8 +27,10 @@ function Plugin:NoclipPlayers( players, bool )
 	for k,v in pairs( players ) do
 		if (bool) then
 			v.LA_CanNoclip = false
+			v:SetNWBool( "LA.CantNoclip", false )
 		else
 			v.LA_CanNoclip = nil
+			v:SetNWBool( "LA.CantNoclip", true )
 		end
 		if (v:GetMoveType() == MOVETYPE_NOCLIP) then
 			v:SetMoveType(MOVETYPE_WALK)

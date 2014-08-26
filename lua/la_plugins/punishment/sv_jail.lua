@@ -20,7 +20,7 @@ Plugin.Privs = { "Jail", "Cage", "Unjail and cage" }
 function Plugin:PlayerSpawn( ply )
 	if (ply.LA_JailPos != nil) then
 		ply:SetPos( ply.LA_JailPos )
-		timer.Simple( 0.05, function(ply) ply:StripWeapons() end, ply )
+		timer.Simple( 0.05, function() ply:StripWeapons() end )
 	end
 end
 
@@ -28,10 +28,12 @@ function Plugin:ImprisonTarget( Target, JailPos, SpawnCage )
 	if (JailPos) then 
 		Target:SetPos( JailPos ) 
 		Target.LA_JailPos = JailPos
+		Target:SetNWBool( "LA.Jailed", true )
 	end
 	if (SpawnCage) then 
 		self:SpawnCage( Target, Target:GetPos() ) 
 		Target.LA_JailPos = Target:GetPos()
+		Target:SetNWBool( "LA.Jailed", true )
 	end
 	Target:StripWeapons()
 end
@@ -39,6 +41,7 @@ end
 function Plugin:UnJailAndCage( Target )
 	GAMEMODE:PlayerLoadout( Target )
 	Target.LA_JailPos = nil
+	Target:SetNWBool( "LA.Jailed", false )
 	self:SpawnCage( Target )
 end
 
@@ -106,7 +109,7 @@ function Plugin:Jail( ply, args )
 			if (#Targets>0) then
 				local jailed = {}
 				for k,v in ipairs( Targets ) do
-					if (!v.LA_IsJailed) then
+					if (!v.LA_JailPos) then
 						self:ImprisonTarget( v, ply:GetEyeTrace().HitPos, false )
 						table.insert( jailed,v )
 					end
@@ -158,7 +161,7 @@ function Plugin:Cage( ply, args )
 			if (#Targets>0) then
 				local caged = {}
 				for k,v in ipairs( Targets ) do
-					if (!v.LA_IsJailed) then
+					if (!v.LA_JailPos) then
 						self:ImprisonTarget( v, nil, true )
 						table.insert( caged,v )
 					end

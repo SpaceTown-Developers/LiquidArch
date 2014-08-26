@@ -24,6 +24,7 @@ function Plugin:Gag( ply, args )
 				for k,v in ipairs( Targets ) do
 					v.LA_Gagged = true
 					table.insert( gagged, v )
+					v:SetNWBool( "LA.Gagged", true )
 				end
 				if (#gagged>0) then
 					LA:Message( LA.Colors.Green, ply, LA.Colors.White, " gagged ", LA.Colors.Blue, LA:GetNameList( gagged ), LA.Colors.White, "." )
@@ -50,11 +51,12 @@ function Plugin:Ungag( ply, args )
 				for k,v in ipairs( Targets ) do
 					v.LA_Gagged = nil
 					table.insert( ungagged, v )
+					v:SetNWBool( "LA.Gagged", false )
 				end
 				if (#ungagged>0) then
-					LA:Message( LA.Colors.Green, ply, LA.Colors.White, " gagged ", LA.Colors.Blue, LA:GetNameList( ungagged ), LA.Colors.White, "." )
+					LA:Message( LA.Colors.Green, ply, LA.Colors.White, " ungagged ", LA.Colors.Blue, LA:GetNameList( ungagged ), LA.Colors.White, "." )
 				else
-					LA:Message( ply, LA.Colors.Red, "All targets are already gagged." )
+					LA:Message( ply, LA.Colors.Red, "No targets are gagged." )
 				end
 			else
 				LA:Message( ply, unpack( LA.NoPlayersFound ) )

@@ -1,3 +1,27 @@
+----------------------------------------------------------------
+-- Helper for Check Boxes
+----------------------------------------------------------------
+local function CreateCheckBox( Pnl, NetBool, On, Off, GetPlayer )
+	local CB = Pnl:Add( "DButton" )
+	CB:SetSize( 15, 15 )
+	CB:SetText( "" )
+	CB:Dock( RIGHT )
+
+	Derma_Hook( CB, "Paint", "Paint", "CheckBox" )
+
+	CB.GetChecked = function( )
+		local Ply = GetPlayer( )
+		if !IsValid( Ply ) then return false end
+		return Ply:GetNWBool( NetBool, false )
+	end
+
+	CB.DoClick = function( )
+		RunConsoleCommand( "la", !CB:GetChecked( ) and On or Off, GetPlayer( ):SteamID( ) )
+	end
+
+	return CB
+end
+
 hook.Add( "LA_BuildMenu", "LA.AddMenuCommands", function( Plugin )
 
 ----------------------------------------------------------------
@@ -58,50 +82,22 @@ hook.Add( "LA_BuildMenu", "LA.AddMenuCommands", function( Plugin )
 
 	Plugin:AddCommand( "Punishment", function( Pnl, Wide, GetPlayer, Close )
 		Pnl:SetText( "Gagged" )
-
-		local CheckBox = Pnl:Add( "DCheckBox" )
-		CheckBox:Dock( RIGHT )
-
-		hook.Add( "LA_ShowCommands", Pnl, function( _, Ply ) 
-			CheckBox:SetValue( Ply:GetNWBool( "LA.Gagged", false ) )
-		end )
-
-		CheckBox.OnChange = function( _, Val )
-			--Close( )
-			RunConsoleCommand( "la", Val and "gag" or "ungag", GetPlayer( ):SteamID( ) )
-		end
+		CreateCheckBox( Pnl, "LA.Gagged", "gag", "ungag", GetPlayer )
 	end, "DPanel" )
 
 	Plugin:AddCommand( "Punishment", function( Pnl, Wide, GetPlayer, Close )
 		Pnl:SetText( "Jailed" )
-
-		local CheckBox = Pnl:Add( "DCheckBox" )
-		CheckBox:Dock( RIGHT )
-
-		hook.Add( "LA_ShowCommands", Pnl, function( _, Ply ) 
-			CheckBox:SetValue( Ply:GetNWBool( "LA.Jailed", false ) )
-		end )
-
-		CheckBox.OnChange = function( _, Val )
-			--Close( )
-			RunConsoleCommand( "la", Val and "jail" or "unjail", GetPlayer( ):SteamID( ) )
-		end
+		CreateCheckBox( Pnl, "LA.Jailed", "jail", "unjail", GetPlayer )
 	end, "DPanel" )
 
 	Plugin:AddCommand( "Punishment", function( Pnl, Wide, GetPlayer, Close )
-		Pnl:SetText( "Froze" )
-
-		local CheckBox = Pnl:Add( "DCheckBox" )
-		CheckBox:Dock( RIGHT )
-
-		hook.Add( "LA_ShowCommands", Pnl, function( _, Ply ) 
-			CheckBox:SetValue( Ply:GetNWBool( "LA.Froze", false ) )
-		end )
-
-		CheckBox.OnChange = function( _, Val )
-			--Close( )
-			RunConsoleCommand( "la", Val and "freeze" or "unfreeze", GetPlayer( ):SteamID( ) )
+		Pnl:SetText( "Frozen" )
+		CreateCheckBox( Pnl, nil, "freeze", "unfreeze", GetPlayer ).GetChecked = function( )
+			local Ply = GetPlayer( )
+			if !IsValid( Ply ) then return false end
+			return Ply:IsFrozen( ) 
 		end
+
 	end, "DPanel" )
 
 ----------------------------------------------------------------
@@ -143,34 +139,12 @@ hook.Add( "LA_BuildMenu", "LA.AddMenuCommands", function( Plugin )
 
 	Plugin:AddCommand( "Administration", function( Pnl, Wide, GetPlayer, Close )
 		Pnl:SetText( "No Limits" )
-
-		local CheckBox = Pnl:Add( "DCheckBox" )
-		CheckBox:Dock( RIGHT )
-
-		hook.Add( "LA_ShowCommands", Pnl, function( _, Ply ) 
-			CheckBox:SetValue( Ply:GetNWBool( "LA.NoLimits", false ) )
-		end )
-
-		CheckBox.OnChange = function( _, Val )
-			--Close( )
-			RunConsoleCommand( "la", Val and "nolimits" or "limits", GetPlayer( ):SteamID( ) )
-		end
+		CreateCheckBox( Pnl, "LA.NoLimits", "nolimits", "limits", GetPlayer )
 	end, "DPanel" )
 
 	Plugin:AddCommand( "Administration", function( Pnl, Wide, GetPlayer, Close )
 		Pnl:SetText( "Can't Noclip" )
-
-		local CheckBox = Pnl:Add( "DCheckBox" )
-		CheckBox:Dock( RIGHT )
-
-		hook.Add( "LA_ShowCommands", Pnl, function( _, Ply ) 
-			CheckBox:SetValue( Ply:GetNWBool( "LA.CantNoclip", false ) )
-		end )
-
-		CheckBox.OnChange = function( _, Val )
-			--Close( )
-			RunConsoleCommand( "la", Val and "unnoclip" or "noclip", GetPlayer( ):SteamID( ) )
-		end
+		CreateCheckBox( Pnl, "LA.CantNoclip", "unnoclip", "noclip", GetPlayer )
 	end, "DPanel" )
 
 

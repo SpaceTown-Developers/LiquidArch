@@ -43,14 +43,14 @@ Plugin.Ranks.VIP.Color = Color( 200,200,200,255 ) -- White
 Plugin.Ranks.Moderator = {}
 Plugin.Ranks.Moderator.Name = "Moderator"
 Plugin.Ranks.Moderator.Power = 30
-Plugin.Ranks.Moderator.Priv = { "Kick", "Explode", "Whip" }
+Plugin.Ranks.Moderator.Priv = { "Kick", "Explode", "Whip", "Gag", "Ungag" }
 Plugin:InheritPriv( "VIP", "Moderator" )
 Plugin.Ranks.Moderator.Color = Color(100,200,100,255) -- Dark Green
 
 Plugin.Ranks.Admin = {}
 Plugin.Ranks.Admin.Name = "Admin"
 Plugin.Ranks.Admin.Power = 70
-Plugin.Ranks.Admin.Priv = { "Kick", "Ban", "Reload", "Freeze", "Trainfuck", "Freeze", "Unfreeze", "Jail", "Cage", "Unjail and cage", "Uncage", "Rocket", "Hax", "Roadkill", "Bombard", "Ban" }
+Plugin.Ranks.Admin.Priv = { "Kick", "Ban", "Reload", "Freeze", "Trainfuck", "Freeze", "Unfreeze", "Jail", "Cage", "Unjail and cage", "Uncage", "Rocket", "Hax", "Roadkill", "Bombard" }
 Plugin:InheritPriv( "Moderator", "Admin" )
 Plugin.Ranks.Admin.Color = Color(200,80,80,255) -- Dark Red
 

@@ -85,12 +85,12 @@ if CLIENT then
 		for Name, Value in pairs( Tbl ) do
 			local Btn = Plugin.List:Add( "DButton" )
 			Btn:SetText( Name )
+			Btn:SetWide( Plugin.List:GetWide() )
 
 			local Input = Btn:Add( "DTextEntry" )
 			Input:SetWide( 30 )
 			Input:Dock( RIGHT )
 			Input:SetValue( Value )
-
 			Btn.DoClick = function( )
 				RunConsoleCommand( "la", "cvar", Input:GetValue( ) )
 			end

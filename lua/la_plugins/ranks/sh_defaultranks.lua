@@ -57,7 +57,7 @@ Plugin.Ranks.Admin.Color = Color(200,80,80,255) -- Dark Red
 Plugin.Ranks.SuperAdmin = {}
 Plugin.Ranks.SuperAdmin.Name = "Super Admin"
 Plugin.Ranks.SuperAdmin.Power = 90
-Plugin.Ranks.SuperAdmin.Priv = { "Rank", "Cexec", "Rcon", "PermBan", "Nolimits", "Limits" }
+Plugin.Ranks.SuperAdmin.Priv = { "Rank", "Cexec", "Rcon", "PermBan", "Nolimits", "Limits", "Change Cvars" }
 Plugin:InheritPriv( "Admin", "SuperAdmin" )
 Plugin.Ranks.SuperAdmin.Color = Color(255,200,0,255) -- Gold
 

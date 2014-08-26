@@ -317,3 +317,18 @@ function hook.Call( hookname, gm, ... )
 	if callback[1] != nil and callback[2] then table.remove(callback,1)	end
 	if callback[1] != nil then return unpack( callback ) end
 end
+
+----------------------------------------------------------------
+-- Convar Hacks
+
+if SERVER then
+	LA.Convars = { }
+
+	local OldCreateConvar = CreateConVar
+
+	function CreateConVar( Name, ... )
+		local Cvar = OldCreateConvar( Name, ... )
+		LA.Convars[Name] = Cvar
+		return Cvar
+	end
+end

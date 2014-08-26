@@ -48,17 +48,17 @@ function Plugin:RocketPlayer(ply)
 	ply:SetMoveType(MOVETYPE_WALK)
 	ply:SetVelocity(Vector(0, 0, 2048))
 	ply.LA_Rocket = true
-	timer.Simple(3,function(ply)
+	timer.Simple(3,function()
 		self:ExplodePlayer(ply)
 		ply.LA_Rocket = nil
 		timer.Destroy("rocket_"..ply:UniqueID())
-	end,ply)
+	end)
 	
-	timer.Create("rocket_"..ply:UniqueID(), 0.05 , 0, function(ply)
+	timer.Create("rocket_"..ply:UniqueID(), 0.05 , 0, function()
 		local Effect = EffectData()
 		Effect:SetOrigin( ply:GetPos() )
 		util.Effect( "la_rocket_trail", Effect )
-	end,ply)
+	end )
 end
 
 function Plugin:PlayerNoClip(ply)

@@ -10,6 +10,7 @@ Plugin.Category = "Menu"
 
 if SERVER then
 	resource.AddSingleFile( "materials/gui/fugue/arrow-return-180-left.png" )
+	resource.AddSingleFile( "materials/gui/fugue/chevron-small-expand.png" )
 
 	function Plugin:Menu( ply, args )
 		if (LA:CheckAllowed( ply, Plugin, "Menu" )) then
@@ -79,6 +80,13 @@ function Plugin:BuildMenu( )
 	
 	Frame.btnMaxim:SetVisible( false )
 	Frame.btnMinim:SetVisible( false )
+
+	Frame.BtnOpts = vgui.Create( "DImageButton", Frame )
+	Frame.BtnOpts:SetImage( "/gui/fugue/chevron-small-expand.png" )
+	Frame.BtnOpts:SetPos( Frame:GetWide( ) - 55, 2 )
+	Frame.BtnOpts:SetSize( 25, 25 )
+	
+	Frame.BtnOpts.DoClick = function( ) Plugin:ShowOptions( ) end
 
 	Frame:MakePopup( )
 	Frame:SetVisible( false )
@@ -183,6 +191,17 @@ function Plugin:SetActiveWidget( Name, NoSlide )
 	end
 
 	self.ActiveWidget = Widget.Pnl
+end
+
+function Plugin:ShowOptions( )
+	local Menu = DermaMenu( )
+
+	for _, Widget in pairs( self.Widgets ) do
+		if Widget.Name == "Actions" then continue end
+		Menu:AddOption( Widget.Name, function( ) Plugin:SetActiveWidget( Widget.Name ) end )
+	end
+
+	Menu:Open( )
 end
 
 ----------------------------------------------------------------

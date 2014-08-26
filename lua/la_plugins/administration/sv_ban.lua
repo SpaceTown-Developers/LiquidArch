@@ -11,8 +11,6 @@ Plugin.Category = "Administration"
 
 Plugin.Privs = { "Ban", "PermBan" }
 
-
-
 function Plugin:Ban( Ply, Args )
 	if !LA:CheckAllowed( Ply, Plugin, "Ban" ) then
 		return LA:Message( Ply, unpack( LA.NotAllowed) )

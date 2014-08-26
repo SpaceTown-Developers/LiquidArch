@@ -21,7 +21,7 @@ function Plugin:Kick( Ply, Args )
 	end
 	
 	local Named = table.remove( Args, 1 )
-	local Target = LA:FindPlayer( Named, true )
+	local Target = LA:FindPlayer( Named )
 	
 	if type( Target ) == "table" then
 		Target = Target[1]

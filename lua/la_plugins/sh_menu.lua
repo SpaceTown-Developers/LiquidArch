@@ -9,6 +9,8 @@ Plugin.Commands = {"Menu"}
 Plugin.Category = "Menu"
 
 if SERVER then
+	resource.AddSingleFile( "materials/gui/fugue/arrow-return-180-left.png" )
+
 	function Plugin:Menu( ply, args )
 		if (LA:CheckAllowed( ply, Plugin, "Menu" )) then
 			umsg.Start("LA_OpenMenu", ply ) umsg.End()	
@@ -74,7 +76,10 @@ function Plugin:BuildMenu( )
 	Frame:SetDraggable( false )
 	Frame:SetSizable( false )
 	Frame:SetDeleteOnClose( false )
-		
+	
+	Frame.btnMaxim:SetVisible( false )
+	Frame.btnMinim:SetVisible( false )
+
 	Frame:MakePopup( )
 	Frame:SetVisible( false )
 	Frame:SetPos( -MenuWidth, (ScrH( ) - MenuHeight) * 0.5 )
@@ -261,9 +266,25 @@ end
 ----------------------------------------------------------------
 Plugin:AddWidget( "", "Actions", function( Pnl, Wide, Tall )
 	Plugin.CmdList = Pnl
-	Pnl:SetTitle( "Actions" )
 
-	Pnl.Close = function( ) Plugin:SetActiveWidget( "Players" ) end
+	Pnl.Close = Pnl:Add( "DImageButton" )
+	Pnl.Close:SetImage( "gui/fugue/arrow-return-180-left.png" )
+	Pnl.Close:SetToolTip( "Return to players." )
+	Pnl.Close.DoClick = function( ) Plugin:SetActiveWidget( "Players" ) end
+	
+	Pnl.Label = Pnl:Add( "DLabel" )
+	Pnl.Label:SetTextColor( Color( 0, 0, 0, 255 ) )
+
+	Pnl.SetTitle = function( _, Text ) Pnl.Label:SetText( Text ) end
+	Pnl:SetTitle( "Actions" )
+	Pnl:DockPadding( 5, 24 + 5, 5, 5 )
+
+	function Pnl.PerformLayout( )
+		Pnl.Label:SetPos( 8, 2 )
+		Pnl.Label:SetSize( Pnl:GetWide( ) - 25, 20 )
+		Pnl.Close:SetSize( 20, 20 )
+		Pnl.Close:SetPos( Pnl:GetWide( ) - 35, 5 )
+	end
 
 	local CatList = vgui.Create( "DCategoryList", Pnl )
 	CatList:Dock( FILL )
@@ -274,11 +295,11 @@ Plugin:AddWidget( "", "Actions", function( Pnl, Wide, Tall )
 
 		for _, CmdTbl in pairs( Cmds ) do
 			CmdTbl.Pnl = List:Add( CmdTbl.Element )
-			CmdTbl.Build( CmdTbl.Pnl, Wide, Plugin.GetPlayer, Pnl.Close )
+			CmdTbl.Build( CmdTbl.Pnl, Wide, Plugin.GetPlayer, Pnl.Close.DoClick )
 		end
 	end
 
-end, "DFrame" )
+end, "DPanel" )
 
 function Plugin:ShowCommands( Player )
 	self.Player = Player
